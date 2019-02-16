@@ -1,39 +1,45 @@
 <template>
   <div id="post">
     <input type="file" v-on:change="onFileLoad" accept="text/*,.csv">
-    <p>{{ fileinfo }}</p>
-    <textarea v-if="txt !== ''">{{ txt }}</textarea>
+    <p>FileLoad {{ text }}</p>
   </div>
 </template>
 
 <script>
+
 export default {
-  props: {
-    msg: String
-  },
   data: function(){
     return {
-      fileinfo: '',
-      txt: ''
+      text: ''
     }
   },
   methods: {
     onFileLoad: function(e) {
       const file = e.target.files[0]
       if (!file) { return false }
-      this.fileinfo = `${this.msg} [${file.name} | ${file.size} | ${file.type} ]`
 
       const tmp = this
       const reader = new FileReader()
       reader.onload = function(e){
-        tmp.txt = e.target.result
+        tmp.text = e.target.result.replace(/\r?\n/g, '').split(',').map( str => parseInt(str, 10) )
       }
       reader.readAsText(file)
     },
-    props: {
-      msg: String
-    }
-  }
+  },
+  updated: function() {
+    this.$emit('input', {
+      text: this.text,
+    })
+  },
+  mounted: function() {
+    this.text = this.value.text
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+  },
 }
 
 </script>
