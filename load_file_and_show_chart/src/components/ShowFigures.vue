@@ -3,6 +3,11 @@ import { Line } from 'vue-chartjs'
 
 export default {
   extends: Line,
+  props: {
+    chartdata: {
+      type: Array,
+    },
+  },
   mounted() {
     this.renderChart({
       labels: ['1', '2', '3', '4', '5', '6', '7'],
@@ -10,11 +15,11 @@ export default {
         {
           label: 'Chart',
           backgroundColor: '#2c3e50',
-          data: [0, 30, 60, 0, 60, 30, 0]
+          data: this.chartdata
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})
-  }
+  },
 }
 </script>
 
