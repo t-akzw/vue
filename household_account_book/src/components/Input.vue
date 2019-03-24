@@ -18,12 +18,31 @@
           {{ cat }}
         </option>
       </select>
+
+      <br>
+
+      <div style="display:inline-flex">
+        <select v-model="selected">
+          <option v-for="cat in cats" v-bind:value="cat">
+            {{ cat }}
+          </option>
+        </select>
+       <!-- 金額しか入力できないようにする -->
+       <input type="text">
+       <datepicker v-model="test"></datepicker>
+       <button @click="">Add</button>
+     </div>
     </div>
   </div>
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
 export default {
+  components: {
+    Datepicker
+  },
   props: {
     msg: String
   },
@@ -32,6 +51,7 @@ export default {
       cats: [],
       newCat: null,
       selected: null,
+      test: new Date(),
     }
   },
   mounted() {
